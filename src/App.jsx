@@ -7,6 +7,7 @@ import ParentL from './pages/LoginPage/Parent/ParentL';
 import EnterpriseR from './pages/RegisterPage/Enterprise/EnterpriseR';
 import ParentR from './pages/RegisterPage/Parent/ParentR';
 import LandingPage from './pages/LandingPage/LandingPage';
+import DashBoard from './pages/DashBoard/DashBoard';
 import Logo from './components/logo/Logo';
 import Enterprise from './pages/Dashboard/Enterprise';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
@@ -26,25 +27,13 @@ const theme = createTheme({
 function App() {
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
-        <Routes>
-          <Route path="/home/*" element={<LandingPage />} />
-          <Route path="/enterprise/login" element={<EnterpriseL />} />
-          <Route 
-            path="/enterprise/dashboard" 
-            element={
-              <ProtectedRoute>
-                <Enterprise />
-                {/* <Dashboard /> */}
-              </ProtectedRoute> 
-            } 
-          />
-          <Route path="*" element={<Navigate to="/home" replace />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/home/*" element={<LandingPage />} />
+        <Route path="*" element={<Navigate to="/home" replace />} />
+      </Routes>
+    </BrowserRouter>
+
   );
 }
 
