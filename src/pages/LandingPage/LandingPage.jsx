@@ -3,6 +3,12 @@ import Navbar from './Navbar';
 import Particles from './Particles';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
+import HeroScrollDemo from '../../components/HeroScrollDemo';
+import EnterpriseL from '../LoginPage/Enterprise/EnterpriseL';
+import { Routes, Route } from 'react-router-dom';
+import Home from './Home';
+
+import { theme } from '../../theme.js';
 
 function LandingPage() {
   return (
@@ -32,17 +38,19 @@ function LandingPage() {
         <Box sx={{width: '100%', pointerEvents: 'auto', overflow: 'hidden'}}>
           <Navbar />
         </Box>
-        <Box sx={{height: 400, width: '100%'}}>
-          <Grid container>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h4" sx={{fontFamily:'system-ui' , pl:13, fontSize : 150}}>See the signs,</Typography>
-              <Typography variant="h4" sx={{fontFamily:'system-ui', pl:13, fontSize : 150}}>Draw the lines</Typography>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography>hi</Typography>
-            </Grid>
-          </Grid>
-        </Box>
+
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/enterprise" element={<EnterpriseL />} />
+        </Routes>
+
+        
+        {/* <Box sx={{mt:20, width: '100%'}} overflow="hidden">
+          <HeroScrollDemo/>
+        </Box> */}
+
+
+
       </div>
     </Box>
   );
