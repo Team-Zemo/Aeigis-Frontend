@@ -34,7 +34,7 @@ function LandingPage() {
         />
       </div>
       {/* Content goes above particles */}
-      <div style={{ width: '100%', minHeight: 'fit-content', position: 'relative', zIndex: 1, pointerEvents: 'none'}}>
+      <div style={{ width: '100%', minHeight: 'fit-content', position: 'relative', zIndex: 1}}>
         <Box sx={{width: '100%', pointerEvents: 'auto', overflow: 'hidden'}}>
           <Navbar />
         </Box>
