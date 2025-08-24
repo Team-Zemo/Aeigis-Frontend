@@ -33,15 +33,14 @@ function LandingPage() {
           <Navbar />
         </Box>
         <Box sx={{height: 400, width: '100%'}}>
-          <Grid container >
-            <Grid size={6}>
-              {/* <Typography variant="h4" sx={{fontFamily:'system-ui'}}>See the signs, </Typography>
-              <Typography variant="h4" sx={{fontFamily:'system-ui'}}>Draw the lines</Typography> */}
+          <Grid container>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h4" sx={{fontFamily:'system-ui' , pl:13, fontSize : 150}}>See the signs,</Typography>
+              <Typography variant="h4" sx={{fontFamily:'system-ui', pl:13, fontSize : 150}}>Draw the lines</Typography>
             </Grid>
-            <Grid size={6}>
-              {/* <Typography>hi</Typography> */}
+            <Grid item xs={12} md={6}>
+              <Typography>hi</Typography>
             </Grid>
-
           </Grid>
         </Box>
       </div>
