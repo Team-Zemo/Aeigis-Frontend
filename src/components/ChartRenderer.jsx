@@ -116,12 +116,6 @@
 
 // export default ChartRenderer;
 
-
-
-
-
-
-// ChartRenderer.jsx
 import React from "react";
 import { ResponsivePie } from "@nivo/pie";
 import { ResponsiveBar } from "@nivo/bar";
