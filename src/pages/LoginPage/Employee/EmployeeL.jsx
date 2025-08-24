@@ -122,17 +122,3 @@ function EmployeeL() {
 }
 
 export default EmployeeL;
-//             fullWidth
-//             variant="contained"
-//             sx={{ mt: 3, mb: 2 }}
-//             disabled={loading}
-//           >
-//             {loading ? <CircularProgress size={24} /> : 'Complete Registration'}
-//           </Button>
-//         </Box>
-//       </Paper>
-//     </Container>
-//   );
-// }
-
-// export default EmployeeL;

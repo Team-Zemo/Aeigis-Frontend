@@ -1,15 +1,12 @@
 import Box from '@mui/material/Box';
 import Navbar from './Navbar';
 import Particles from './Particles';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
 import EnterpriseL from '../LoginPage/Enterprise/EnterpriseL';
 import About from './About';
-import EmployeeL from '../LoginPage/Employee/EmployeeL.jsx';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
+import EmployeeLogin from '../LoginPage/Employee/EmployeeLogin.jsx';
 
-import { theme } from '../../theme.js';
 
 function LandingPage() {
   return (
@@ -43,7 +40,7 @@ function LandingPage() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/enterprise" element={<EnterpriseL />} />
-          <Route path="/employee" element={<EmployeeL />} />
+          <Route path="/employee" element={<EmployeeLogin />} />
           <Route path="/about" element={<About />} />
         </Routes>
 

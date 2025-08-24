@@ -6,8 +6,8 @@ import EnterpriseL from './pages/LoginPage/Enterprise/EnterpriseL';
 import LandingPage from './pages/LandingPage/LandingPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Employee from './pages/Employee/Employee';
-import EmployeeL from './pages/LoginPage/Employee/EmployeeL';
+import ChatScreen from './pages/ChatPage/ChatScreen';
+// import EmployeeLogin from './pages/LoginPage/Employee/EmployeeLogin';
 
 const theme = createTheme({
   palette: {
@@ -29,7 +29,7 @@ function App() {
         <Routes>
           <Route path="/home/*" element={<LandingPage />} />
           <Route path="/enterprise/login" element={<EnterpriseL />} />
-          <Route path="/employee/*" element={<EmployeeL />} />
+          {/* <Route path="/employee/*" element={<EmployeeLogin />} /> */}
           <Route 
             path="/enterprise/dashboard" 
             element={
@@ -42,7 +42,7 @@ function App() {
             path="/employee" 
             element={
               <ProtectedRoute>
-                <Employee />
+                <ChatScreen />
               </ProtectedRoute> 
             } 
           />
