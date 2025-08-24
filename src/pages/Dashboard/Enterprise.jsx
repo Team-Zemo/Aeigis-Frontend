@@ -88,10 +88,12 @@ const chartConfigs = [
     id: 'monthly_trends',
     title: 'Monthly AI Misuse Trends',
     type: 'line',
-    data: aiMisuseData.monthlyMisuse.map(item => ({
-      id: 'violations',
-      data: aiMisuseData.monthlyMisuse.map(d => ({ x: d.month, y: d.violations }))
-    })),
+    data: [
+      {
+        id: 'monthly_violations', // unique key for the series
+        data: aiMisuseData.monthlyMisuse.map(d => ({ x: d.month, y: d.violations }))
+      }
+    ],
     icon: FiTrendingUp,
     description: 'Track monthly violation patterns across the organization'
   },
@@ -512,7 +514,6 @@ const DashBoard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
-        <button onClick={handleLogout}>Logout</button>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -546,6 +547,15 @@ const DashBoard = () => {
           </div>
 
           <div className="flex gap-3 mt-6 lg:mt-0 flex-wrap">
+            <motion.button
+              onClick={handleLogout}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="flex items-center gap-2 px-4 py-2 bg-red-500 text-white rounded-xl hover:bg-red-600 transition-colors shadow-sm"
+            >
+              Logout
+            </motion.button>
+
             <motion.button
               onClick={exportToExcel}
               whileHover={{ scale: 1.02 }}

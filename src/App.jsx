@@ -10,6 +10,7 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import Logo from './components/logo/Logo';
 import Enterprise from './pages/Dashboard/Enterprise';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import Dashboard from './pages/Dashboard/Dashboard';
 
 const theme = createTheme({
   palette: {
@@ -36,7 +37,8 @@ function App() {
             element={
               <ProtectedRoute>
                 <Enterprise />
-              </ProtectedRoute>
+                {/* <Dashboard /> */}
+              </ProtectedRoute> 
             } 
           />
           <Route path="*" element={<Navigate to="/home" replace />} />

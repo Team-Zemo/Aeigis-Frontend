@@ -113,13 +113,21 @@ export const useAuthStore = create((set, get) => ({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       });
-      
+
       console.log('Response status:', response.status);
       console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-      
-      const data = await response.json();
+
+      let data;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        // fallback for plain text or empty response
+        const message = await response.text();
+        data = { message, token: null };
+      }
       console.log('Response data:', data);
-      
+
       if (response.ok && data.token) {
         console.log('Login successful, setting user data');
         set({ 

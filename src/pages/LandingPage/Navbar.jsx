@@ -152,6 +152,7 @@ function Navbar() {
             let to = "/home";
             if (page.name === "Home") to = "/home";
             else if (page.name === "About") to = "/home/about";
+            // else if (page.name === "Enterprise") to = "/dashboard/enterprise";
             else if (page.name === "Enterprise") to = "/home/enterprise";
             else if (page.name === "Pricing") to = "/home/pricing";
 
@@ -200,7 +201,7 @@ function Navbar() {
           onClick={handleSignUpClick}
           sx={{
             color: "#000",
-            backgroundColor: "#f0f0f0",
+            backgroundColor: "#e5e5e5ff",
             py: 0.4,
             my: 0.2,
             mx: { xs: 0.1, sm: 0.1, md: 0.2, lg: 0.2, xl: 0.2 },
@@ -216,6 +217,7 @@ function Navbar() {
             px:2,
             "&:hover": {
               backgroundColor: "transparent",
+              color: "#000",
             },
           }}
           >
