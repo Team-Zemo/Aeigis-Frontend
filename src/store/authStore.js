@@ -73,6 +73,9 @@ export const useAuthStore = create((set, get) => ({
   registerAdmin: async () => {
     set({ loading: true, error: null });
     try {
+      // Log the payload for debugging
+      console.log('Register payload:', get().formData);
+
       const response = await fetch(`${BASE_URL}/api/auth/register-admin`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -171,6 +174,68 @@ export const useAuthStore = create((set, get) => ({
         token,
         user: { email: 'user@example.com', role: 'ADMIN' } // You might want to decode JWT or fetch user info
       });
+    }
+  },
+
+  inviteEmployee: async (email) => {
+    set({ loading: true, error: null, successMessage: null });
+    try {
+      const token = get().token || localStorage.getItem('authToken');
+      const response = await fetch(`${BASE_URL}/api/admin/invite-user`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify({ email })
+      });
+      console.log('Invite employee response status:', response.status);
+      if (response.status === 200) {
+        const message = await response.text();
+        set({ loading: false, successMessage: message || 'email is sent' });
+        return true;
+      } else if (response.status === 403) {
+        set({ loading: false, error: 'You do not have permission to invite employees.' });
+        return false;
+      } else {
+        const errorMsg = await response.text();
+        set({ loading: false, error: errorMsg || 'Failed to send invite' });
+        return false;
+      }
+    } catch (error) {
+      set({ loading: false, error: 'Network error occurred' });
+      return false;
+    }
+  },
+
+  // Complete employee registration with invitation token
+  completeEmployeeRegistration: async (invitationToken, password, name) => {
+    set({ loading: true, error: null, successMessage: null });
+    try {
+      const response = await fetch(`${BASE_URL}/api/auth/complete-registration`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ invitationToken, password, name })
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok && data.token) {
+        set({ 
+          loading: false,
+          user: { email: data.email, role: data.role },
+          token: data.token,
+          successMessage: data.message
+        });
+        localStorage.setItem('authToken', data.token);
+        return true;
+      } else {
+        set({ loading: false, error: data.message || 'Registration failed' });
+        return false;
+      }
+    } catch (error) {
+      set({ loading: false, error: 'Network error occurred' });
+      return false;
     }
   },
 }));

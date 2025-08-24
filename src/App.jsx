@@ -3,14 +3,11 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import EnterpriseL from './pages/LoginPage/Enterprise/EnterpriseL';
-import ParentL from './pages/LoginPage/Parent/ParentL';
-import EnterpriseR from './pages/RegisterPage/Enterprise/EnterpriseR';
-import ParentR from './pages/RegisterPage/Parent/ParentR';
 import LandingPage from './pages/LandingPage/LandingPage';
-import Logo from './components/logo/Logo';
-import Enterprise from './pages/Dashboard/Enterprise';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Dashboard from './pages/Dashboard/Dashboard';
+import Employee from './pages/Employee/Employee';
+import EmployeeL from './pages/LoginPage/Employee/EmployeeL';
 
 const theme = createTheme({
   palette: {
@@ -32,12 +29,20 @@ function App() {
         <Routes>
           <Route path="/home/*" element={<LandingPage />} />
           <Route path="/enterprise/login" element={<EnterpriseL />} />
+          <Route path="/employee/*" element={<EmployeeL />} />
           <Route 
             path="/enterprise/dashboard" 
             element={
               <ProtectedRoute>
-                <Enterprise />
-                {/* <Dashboard /> */}
+                <Dashboard />
+              </ProtectedRoute> 
+            } 
+          />
+          <Route 
+            path="/employee" 
+            element={
+              <ProtectedRoute>
+                <Employee />
               </ProtectedRoute> 
             } 
           />

@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useState, useRef, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const pages = [
   { name: "Home", color: "#90f188", bcolor: "#0f1d07", bbcolor: "#fbfbf8" },
@@ -14,6 +14,7 @@ const pages = [
 
 function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState("Home");
   const [sliderStyle, setSliderStyle] = useState({
     left: 0,
@@ -90,10 +91,6 @@ function Navbar() {
     }
   };
 
-  const handleSignUpClick = () => {
-    navigate('/login/parent');
-  };
-
   return (
     <Box
       sx={{
@@ -152,7 +149,6 @@ function Navbar() {
             let to = "/home";
             if (page.name === "Home") to = "/home";
             else if (page.name === "About") to = "/home/about";
-            // else if (page.name === "Enterprise") to = "/dashboard/enterprise";
             else if (page.name === "Enterprise") to = "/home/enterprise";
             else if (page.name === "Pricing") to = "/home/pricing";
 
@@ -198,7 +194,8 @@ function Navbar() {
 
       <Box sx={{ height: 47, width: 'fit-content'}}>
         <Button
-          onClick={handleSignUpClick}
+          component={Link}
+          to="/home/employee"
           sx={{
             color: "#000",
             backgroundColor: "#e5e5e5ff",

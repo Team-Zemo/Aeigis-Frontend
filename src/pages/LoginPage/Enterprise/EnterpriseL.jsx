@@ -197,6 +197,7 @@ function EnterpriseL() {
                 required
                 disabled={loading}
                 placeholder="Create a password"
+                autoComplete="current-password"
               />
             </div>
 

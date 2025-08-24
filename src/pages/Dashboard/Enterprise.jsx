@@ -604,24 +604,6 @@ const DashBoard = () => {
           ))}
         </div>
 
-        {/* Charts Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {chartConfigs.map((chart, index) => (
-            <motion.div
-              key={chart.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: index * 0.08 }}
-            >
-              <ChartCard
-                chart={chart}
-                isVisible={visibleCharts[chart.id]}
-                onToggle={toggleChart}
-              />
-            </motion.div>
-          ))}
-        </div>
-
         {/* Footer */}
         <motion.div
           initial={{ opacity: 0 }}

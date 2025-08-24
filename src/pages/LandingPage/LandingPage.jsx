@@ -3,8 +3,9 @@ import Navbar from './Navbar';
 import Particles from './Particles';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import HeroScrollDemo from '../../components/HeroScrollDemo';
 import EnterpriseL from '../LoginPage/Enterprise/EnterpriseL';
+import About from './About';
+import EmployeeL from '../LoginPage/Employee/EmployeeL.jsx';
 import { Routes, Route } from 'react-router-dom';
 import Home from './Home';
 
@@ -42,14 +43,9 @@ function LandingPage() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/enterprise" element={<EnterpriseL />} />
+          <Route path="/employee" element={<EmployeeL />} />
+          <Route path="/about" element={<About />} />
         </Routes>
-
-        
-        {/* <Box sx={{mt:20, width: '100%'}} overflow="hidden">
-          <HeroScrollDemo/>
-        </Box> */}
-
-
 
       </div>
     </Box>
