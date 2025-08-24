@@ -1,6 +1,5 @@
 import { create } from 'zustand';
-
-const BASE_URL = '';
+import { authApi, analyticsApi } from './api.js';
 
 export const useAuthStore = create((set, get) => ({
   // State
@@ -10,6 +9,7 @@ export const useAuthStore = create((set, get) => ({
   successMessage: null,
   user: null,
   token: null,
+  analytics: null,
   
   // Form data
   formData: {
@@ -40,11 +40,7 @@ export const useAuthStore = create((set, get) => ({
   sendOTP: async (email) => {
     set({ loading: true, error: null, successMessage: null });
     try {
-      const response = await fetch(`${BASE_URL}/api/auth/send-otp`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
+      const response = await authApi.sendOTP(email);
       
       if (response.ok) {
         const data = await response.text();
@@ -73,15 +69,9 @@ export const useAuthStore = create((set, get) => ({
   registerAdmin: async () => {
     set({ loading: true, error: null });
     try {
-      // Log the payload for debugging
       console.log('Register payload:', get().formData);
 
-      const response = await fetch(`${BASE_URL}/api/auth/register-admin`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(get().formData)
-      });
-      
+      const response = await authApi.registerAdmin(get().formData);
       const data = await response.json();
       
       if (response.ok && data.token) {
@@ -91,7 +81,6 @@ export const useAuthStore = create((set, get) => ({
           token: data.token,
           successMessage: data.message
         });
-        // Store token in localStorage
         localStorage.setItem('authToken', data.token);
       } else {
         set({ loading: false, error: data.message || 'Registration failed' });
@@ -101,38 +90,28 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  // Add login method
   login: async (email, password) => {
     set({ loading: true, error: null });
     try {
       console.log('Login attempt:', { 
         email, 
-        passwordLength: password.length,
-        url: `${BASE_URL}/api/auth/login`
+        passwordLength: password.length
       });
 
-      const response = await fetch(`${BASE_URL}/api/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
+      const response = await authApi.login(email, password);
 
       console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
 
       let data;
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
         data = await response.json();
       } else {
-        // fallback for plain text or empty response
         const message = await response.text();
         data = { message, token: null };
       }
-      console.log('Response data:', data);
 
       if (response.ok && data.token) {
-        console.log('Login successful, setting user data');
         set({ 
           loading: false,
           user: { email: data.email, role: data.role },
@@ -142,7 +121,6 @@ export const useAuthStore = create((set, get) => ({
         localStorage.setItem('authToken', data.token);
         return true;
       } else {
-        console.log('Login failed with message:', data.message);
         set({ loading: false, error: data.message || 'Login failed' });
         return false;
       }
@@ -180,16 +158,8 @@ export const useAuthStore = create((set, get) => ({
   inviteEmployee: async (email) => {
     set({ loading: true, error: null, successMessage: null });
     try {
-      const token = get().token || localStorage.getItem('authToken');
-      const response = await fetch(`${BASE_URL}/api/admin/invite-user`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-        },
-        body: JSON.stringify({ email })
-      });
-      console.log('Invite employee response status:', response.status);
+      const response = await authApi.inviteEmployee(email);
+      
       if (response.status === 200) {
         const message = await response.text();
         set({ loading: false, successMessage: message || 'email is sent' });
@@ -208,16 +178,10 @@ export const useAuthStore = create((set, get) => ({
     }
   },
 
-  // Complete employee registration with invitation token
   completeEmployeeRegistration: async (invitationToken, password, name) => {
     set({ loading: true, error: null, successMessage: null });
     try {
-      const response = await fetch(`${BASE_URL}/api/auth/complete-registration`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ invitationToken, password, name })
-      });
-      
+      const response = await authApi.completeEmployeeRegistration(invitationToken, password, name);
       const data = await response.json();
       
       if (response.ok && data.token) {
@@ -238,4 +202,40 @@ export const useAuthStore = create((set, get) => ({
       return false;
     }
   },
+
+  // Analytics methods
+  fetchAnalytics: async () => {
+    set({ loading: true, error: null });
+    try {
+      const result = await analyticsApi.getAnalytics();
+      
+      if (result.success) {
+        set({ loading: false, analytics: result.data });
+        return true;
+      } else {
+        set({ loading: false, error: result.error });
+        return false;
+      }
+    } catch (error) {
+      set({ loading: false, error: 'Failed to fetch analytics' });
+      return false;
+    }
+  },
 }));
+//           loading: false,
+//           user: { email: data.email, role: data.role },
+//           token: data.token,
+//           successMessage: data.message
+//         });
+//         localStorage.setItem('authToken', data.token);
+//         return true;
+//       } else {
+//         set({ loading: false, error: data.message || 'Registration failed' });
+//         return false;
+//       }
+//     } catch (error) {
+//       set({ loading: false, error: 'Network error occurred' });
+//       return false;
+//     }
+//   },
+// }));

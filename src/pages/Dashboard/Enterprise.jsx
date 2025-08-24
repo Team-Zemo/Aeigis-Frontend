@@ -24,134 +24,7 @@ import {
 } from 'react-icons/fi';
 import * as XLSX from 'xlsx';
 
-// AI Misuse Detection Sample Data
-const aiMisuseData = {
-  // Monthly misuse trends for all employees
-  monthlyMisuse: [
-    { month: 'Jan', violations: 45, severity: 'Medium', prevented: 38 },
-    { month: 'Feb', violations: 52, severity: 'High', prevented: 45 },
-    { month: 'Mar', violations: 38, severity: 'Low', prevented: 35 },
-    { month: 'Apr', violations: 67, severity: 'High', prevented: 58 },
-    { month: 'May', violations: 41, severity: 'Medium', prevented: 39 },
-    { month: 'Jun', violations: 29, severity: 'Low', prevented: 27 }
-  ],
-
-  // Per employee misuse data
-  employeeMisuse: [
-    { id: 'emp_001', name: 'John Smith', department: 'Engineering', violations: 12, riskLevel: 'High', lastIncident: '2025-08-23' },
-    { id: 'emp_002', name: 'Sarah Johnson', department: 'Marketing', violations: 8, riskLevel: 'Medium', lastIncident: '2025-08-22' },
-    { id: 'emp_003', name: 'Mike Davis', department: 'Sales', violations: 15, riskLevel: 'Critical', lastIncident: '2025-08-24' },
-    { id: 'emp_004', name: 'Emily Chen', department: 'HR', violations: 3, riskLevel: 'Low', lastIncident: '2025-08-20' },
-    { id: 'emp_005', name: 'David Wilson', department: 'Finance', violations: 6, riskLevel: 'Medium', lastIncident: '2025-08-21' },
-    { id: 'emp_006', name: 'Lisa Brown', department: 'Engineering', violations: 18, riskLevel: 'Critical', lastIncident: '2025-08-24' }
-  ],
-
-  // Violation types distribution
-  violationTypes: [
-    { id: 'unauthorized_access', label: 'Unauthorized AI Access', value: 35, color: '#ef4444' },
-    { id: 'data_misuse', label: 'Data Misuse', value: 28, color: '#f97316' },
-    { id: 'policy_violation', label: 'Policy Violations', value: 22, color: '#eab308' },
-    { id: 'prompt_injection', label: 'Prompt Injection', value: 15, color: '#8b5cf6' }
-  ],
-
-  // Real-time threat levels
-  threatLevels: [
-    { time: '00:00', critical: 2, high: 5, medium: 8, low: 12 },
-    { time: '04:00', critical: 1, high: 3, medium: 6, low: 15 },
-    { time: '08:00', critical: 4, high: 8, medium: 12, low: 18 },
-    { time: '12:00', critical: 6, high: 12, medium: 15, low: 22 },
-    { time: '16:00', critical: 3, high: 9, medium: 14, low: 20 },
-    { time: '20:00', critical: 2, high: 6, medium: 10, low: 16 }
-  ],
-
-  // Department risk analysis
-  departmentRisk: [
-    { department: 'Engineering', riskScore: 85, incidents: 45, employees: 120 },
-    { department: 'Marketing', riskScore: 62, incidents: 28, employees: 85 },
-    { department: 'Sales', riskScore: 71, incidents: 35, employees: 95 },
-    { department: 'HR', riskScore: 43, incidents: 18, employees: 45 },
-    { department: 'Finance', riskScore: 55, incidents: 22, employees: 65 }
-  ],
-
-  // AI model usage patterns
-  modelUsage: [
-    { model: 'GPT-4', usage: 45, misuse: 12, efficiency: 85 },
-    { model: 'Claude', usage: 32, misuse: 8, efficiency: 92 },
-    { model: 'Gemini', usage: 28, misuse: 15, efficiency: 78 },
-    { model: 'Llama', usage: 22, misuse: 6, efficiency: 88 },
-    { model: 'Custom AI', usage: 18, misuse: 9, efficiency: 75 }
-  ]
-};
-
-const chartConfigs = [
-  {
-    id: 'monthly_trends',
-    title: 'Monthly AI Misuse Trends',
-    type: 'line',
-    data: [
-      {
-        id: 'monthly_violations', // unique key for the series
-        data: aiMisuseData.monthlyMisuse.map(d => ({ x: d.month, y: d.violations }))
-      }
-    ],
-    icon: FiTrendingUp,
-    description: 'Track monthly violation patterns across the organization'
-  },
-  {
-    id: 'employee_violations',
-    title: 'Employee Violation Distribution',
-    type: 'bar',
-    data: aiMisuseData.employeeMisuse.map(emp => ({
-      id: emp.name,
-      value: emp.violations,
-      department: emp.department,
-      riskLevel: emp.riskLevel
-    })),
-    icon: FiUsers,
-    description: 'Individual employee violation counts and risk levels'
-  },
-  {
-    id: 'violation_types',
-    title: 'Violation Types Breakdown',
-    type: 'pie',
-    data: aiMisuseData.violationTypes,
-    icon: FiPieChart,
-    description: 'Distribution of different types of AI misuse violations'
-  },
-  {
-    id: 'threat_levels',
-    title: 'Real-time Threat Monitoring',
-    type: 'stream',
-    data: aiMisuseData.threatLevels,
-    icon: FiActivity,
-    description: '24-hour threat level monitoring and incident tracking'
-  },
-  {
-    id: 'department_risk',
-    title: 'Department Risk Analysis',
-    type: 'radar',
-    data: aiMisuseData.departmentRisk.map(dept => ({
-      metric: dept.department,
-      value: dept.riskScore
-    })),
-    icon: FiTarget,
-    description: 'Risk assessment across different organizational departments'
-  },
-  {
-    id: 'model_usage',
-    title: 'AI Model Usage & Misuse',
-    type: 'bar',
-    data: aiMisuseData.modelUsage.map(model => ({
-      id: model.model,
-      usage: model.usage,
-      misuse: model.misuse,
-      efficiency: model.efficiency
-    })),
-    icon: FiGrid,
-    description: 'Usage patterns and misuse rates for different AI models'
-  }
-];
-
+// StatCard Component
 const StatCard = ({ icon: Icon, title, value, change, color, status, isAnimating }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -198,6 +71,7 @@ const StatCard = ({ icon: Icon, title, value, change, color, status, isAnimating
   </motion.div>
 );
 
+// ChartCard Component
 const ChartCard = ({ chart, isVisible, onToggle }) => (
   <AnimatePresence>
     {isVisible && (
@@ -242,7 +116,7 @@ const ChartCard = ({ chart, isVisible, onToggle }) => (
 );
 
 // Chart Dropdown Component
-const ChartDropdown = ({ visibleCharts, onToggleChart, onToggleAll }) => {
+const ChartDropdown = ({ visibleCharts, onToggleChart, onToggleAll, chartConfigs }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -386,26 +260,165 @@ const ChartDropdown = ({ visibleCharts, onToggleChart, onToggleAll }) => {
   );
 };
 
-const DashBoard = () => {
-  const [visibleCharts, setVisibleCharts] = useState(
-    chartConfigs.reduce((acc, chart) => ({ ...acc, [chart.id]: true }), {})
-  );
+const Enterprise = () => {
   const [realTimeData, setRealTimeData] = useState(true);
+  const [apiAvailable, setApiAvailable] = useState(true);
+  
+  // Add analytics state management
+  const { analytics, fetchAnalytics, loading, error, logout, initializeAuth, user } = useAuthStore();
 
-  // Simulate real-time updates
+  // Fetch analytics data on component mount
   useEffect(() => {
-    if (realTimeData) {
+    initializeAuth();
+    const fetchData = async () => {
+      const result = await fetchAnalytics();
+      if (!result) {
+        setApiAvailable(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // Auto-refresh analytics data
+  useEffect(() => {
+    if (realTimeData && apiAvailable) {
       const interval = setInterval(() => {
-        // Simulate data updates
-        setTimeout(() => {}, 1000);
+        fetchAnalytics();
       }, 30000); // Update every 30 seconds
 
       return () => clearInterval(interval);
     }
-  }, [realTimeData]);
+  }, [realTimeData, apiAvailable]);
+
+  // Create dynamic chart configs based on real data
+  const chartConfigs = analytics ? [
+    {
+      id: 'daily_trends',
+      title: 'Daily Query Trends',
+      type: 'line',
+      data: [
+        {
+          id: 'daily_queries',
+          data: Object.entries(analytics.dailyQueryCounts || {}).map(([date, count]) => ({ x: date, y: count }))
+        }
+      ],
+      icon: FiTrendingUp,
+      description: 'Track daily query patterns across the organization'
+    },
+    {
+      id: 'employee_analytics',
+      title: 'Employee Query Distribution',
+      type: 'bar',
+      data: (analytics.employeeAnalytics || []).map(emp => ({
+        id: emp.employeeName,
+        value: emp.totalQueries,
+        safeQueries: emp.safeQueries,
+        warningQueries: emp.warningQueries,
+        severeQueries: emp.severeQueries
+      })),
+      icon: FiUsers,
+      description: 'Individual employee query counts and safety levels'
+    },
+    {
+      id: 'query_safety',
+      title: 'Query Safety Breakdown',
+      type: 'pie',
+      data: analytics.overallStats ? [
+        { id: 'safe', label: 'Safe Queries', value: analytics.overallStats.safeQueries, color: '#10b981' },
+        { id: 'warning', label: 'Warning Queries', value: analytics.overallStats.warningQueries, color: '#f59e0b' },
+        { id: 'severe', label: 'Severe Queries', value: analytics.overallStats.severeQueries, color: '#ef4444' }
+      ] : [],
+      icon: FiPieChart,
+      description: 'Distribution of query safety levels'
+    },
+    {
+      id: 'weekly_trends',
+      title: 'Weekly Query Monitoring',
+      type: 'bar',
+      data: Object.entries(analytics.weeklyQueryCounts || {}).map(([week, count]) => ({
+        id: week,
+        value: count
+      })),
+      icon: FiActivity,
+      description: 'Weekly query volume tracking'
+    },
+    {
+      id: 'monthly_trends',
+      title: 'Monthly Query Analysis',
+      type: 'line',
+      data: [
+        {
+          id: 'monthly_queries',
+          data: Object.entries(analytics.monthlyQueryCounts || {}).map(([month, count]) => ({ x: month, y: count }))
+        }
+      ],
+      icon: FiBarChart2,
+      description: 'Monthly query volume and trend analysis'
+    }
+  ] : [];
+
+  // Initialize visibleCharts state after chartConfigs is defined
+  const [visibleCharts, setVisibleCharts] = useState(
+    chartConfigs.reduce((acc, chart) => ({ ...acc, [chart.id]: true }), {})
+  );
+
+  // Update visibleCharts when chartConfigs changes
+  useEffect(() => {
+    if (chartConfigs.length > 0) {
+      setVisibleCharts(prev => {
+        const newState = chartConfigs.reduce((acc, chart) => ({ 
+          ...acc, 
+          [chart.id]: prev[chart.id] !== undefined ? prev[chart.id] : true 
+        }), {});
+        return newState;
+      });
+    }
+  }, [analytics]);
+
+  // Update stats to use real data
+  const stats = analytics ? [
+    {
+      icon: FiAlertTriangle,
+      title: 'Severe Queries',
+      value: analytics.overallStats.severeQueries.toString(),
+      change: analytics.overallStats.severePercentage || 0,
+      color: 'bg-red-500',
+      status: analytics.overallStats.severeQueries > 10 ? 'Critical' : analytics.overallStats.severeQueries > 5 ? 'High' : 'Low',
+      isAnimating: analytics.overallStats.severeQueries > 0
+    },
+    {
+      icon: FiShield,
+      title: 'Safe Queries',
+      value: analytics.overallStats.safeQueries.toString(),
+      change: analytics.overallStats.safePercentage || 0,
+      color: 'bg-emerald-500',
+      status: 'Good'
+    },
+    {
+      icon: FiUsers,
+      title: 'Total Employees',
+      value: analytics.overallStats.totalEmployees.toString(),
+      change: 0,
+      color: 'bg-blue-500',
+      status: 'Active'
+    },
+    {
+      icon: FiActivity,
+      title: 'Total Queries',
+      value: analytics.overallStats.totalQueries.toString(),
+      change: 0,
+      color: 'bg-purple-500',
+      status: 'Monitoring'
+    }
+  ] : [];
 
   const handleRefresh = async () => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    const result = await fetchAnalytics();
+    if (!result) {
+      setApiAvailable(false);
+    } else {
+      setApiAvailable(true);
+    }
   };
 
   const toggleChart = (chartId) => {
@@ -425,96 +438,162 @@ const DashBoard = () => {
   };
 
   const exportToExcel = () => {
+    if (!analytics) return;
+
     const workbook = XLSX.utils.book_new();
 
-    // Employee violations sheet
-    const employeeData = aiMisuseData.employeeMisuse.map(emp => ({
-      'Employee ID': emp.id,
-      'Name': emp.name,
-      'Department': emp.department,
-      'Violations': emp.violations,
-      'Risk Level': emp.riskLevel,
-      'Last Incident': emp.lastIncident
+    // Employee analytics sheet
+    const employeeData = (analytics.employeeAnalytics || []).map(emp => ({
+      'Employee Email': emp.employeeEmail,
+      'Employee Name': emp.employeeName,
+      'Total Queries': emp.totalQueries,
+      'Safe Queries': emp.safeQueries,
+      'Warning Queries': emp.warningQueries,
+      'Severe Queries': emp.severeQueries,
+      'Safe Percentage': emp.safePercentage,
+      'Warning Percentage': emp.warningPercentage,
+      'Severe Percentage': emp.severePercentage,
+      'Last Query Date': emp.lastQueryDate
     }));
 
-    // Monthly trends sheet
-    const monthlyData = aiMisuseData.monthlyMisuse.map(item => ({
-      'Month': item.month,
-      'Violations': item.violations,
-      'Severity': item.severity,
-      'Prevented': item.prevented
+    // Overall stats sheet
+    const overallData = [{
+      'Total Employees': analytics.overallStats.totalEmployees,
+      'Total Queries': analytics.overallStats.totalQueries,
+      'Safe Queries': analytics.overallStats.safeQueries,
+      'Warning Queries': analytics.overallStats.warningQueries,
+      'Severe Queries': analytics.overallStats.severeQueries,
+      'Safe Percentage': analytics.overallStats.safePercentage,
+      'Warning Percentage': analytics.overallStats.warningPercentage,
+      'Severe Percentage': analytics.overallStats.severePercentage
+    }];
+
+    // Recent queries sheets
+    const severeQueriesData = (analytics.recentSevereQueries || []).map((query, index) => ({
+      'Query #': index + 1,
+      'Content': query.content || 'N/A',
+      'Employee': query.employee || 'N/A',
+      'Date': query.date || 'N/A',
+      'Risk Level': 'Severe'
     }));
 
-    // Department risk sheet
-    const departmentData = aiMisuseData.departmentRisk.map(dept => ({
-      'Department': dept.department,
-      'Risk Score': dept.riskScore,
-      'Incidents': dept.incidents,
-      'Employees': dept.employees
+    const warningQueriesData = (analytics.recentWarningQueries || []).map((query, index) => ({
+      'Query #': index + 1,
+      'Content': query.content || 'N/A',
+      'Employee': query.employee || 'N/A',
+      'Date': query.date || 'N/A',
+      'Risk Level': 'Warning'
+    }));
+
+    // Daily counts sheet
+    const dailyData = Object.entries(analytics.dailyQueryCounts || {}).map(([date, count]) => ({
+      'Date': date,
+      'Query Count': count
     }));
 
     const employeeSheet = XLSX.utils.json_to_sheet(employeeData);
-    const monthlySheet = XLSX.utils.json_to_sheet(monthlyData);
-    const departmentSheet = XLSX.utils.json_to_sheet(departmentData);
+    const overallSheet = XLSX.utils.json_to_sheet(overallData);
+    const severeSheet = XLSX.utils.json_to_sheet(severeQueriesData);
+    const warningSheet = XLSX.utils.json_to_sheet(warningQueriesData);
+    const dailySheet = XLSX.utils.json_to_sheet(dailyData);
 
-    XLSX.utils.book_append_sheet(workbook, employeeSheet, 'Employee Violations');
-    XLSX.utils.book_append_sheet(workbook, monthlySheet, 'Monthly Trends');
-    XLSX.utils.book_append_sheet(workbook, departmentSheet, 'Department Risk');
+    XLSX.utils.book_append_sheet(workbook, overallSheet, 'Overall Stats');
+    XLSX.utils.book_append_sheet(workbook, employeeSheet, 'Employee Analytics');
+    XLSX.utils.book_append_sheet(workbook, severeSheet, 'Severe Queries');
+    XLSX.utils.book_append_sheet(workbook, warningSheet, 'Warning Queries');
+    XLSX.utils.book_append_sheet(workbook, dailySheet, 'Daily Counts');
 
-    XLSX.writeFile(workbook, `AI_Misuse_Report_${new Date().toISOString().split('T')[0]}.xlsx`);
+    XLSX.writeFile(workbook, `AI_Analytics_Report_${new Date().toISOString().split('T')[0]}.xlsx`);
   };
 
-  const stats = [
-    {
-      icon: FiAlertTriangle,
-      title: 'Active Threats',
-      value: '23',
-      change: 15.2,
-      color: 'bg-red-500',
-      status: 'Critical',
-      isAnimating: true
-    },
-    {
-      icon: FiShield,
-      title: 'Threats Prevented',
-      value: '1,847',
-      change: -8.5,
-      color: 'bg-emerald-500',
-      status: 'Good'
-    },
-    {
-      icon: FiUsers,
-      title: 'At-Risk Employees',
-      value: '156',
-      change: 5.1,
-      color: 'bg-amber-500',
-      status: 'Medium'
-    },
-    {
-      icon: FiActivity,
-      title: 'System Health',
-      value: '98.2%',
-      change: -0.8,
-      color: 'bg-blue-500',
-      status: 'Excellent'
-    }
-  ];
-      const navigate = useNavigate();
-      const { logout, initializeAuth, user } = useAuthStore();
+  const navigate = useNavigate();
   
-      useEffect(() => {
-          // Initialize auth state from localStorage when component mounts
-          initializeAuth();
-      }, []);
+  useEffect(() => {
+      // Initialize auth state from localStorage when component mounts
+      initializeAuth();
+  }, []);
   
-      const handleLogout = () => {
-          logout();
-          navigate('/home/enterprise');
-      };
+  const handleLogout = () => {
+      logout();
+      navigate('/home/enterprise');
+  };
+
+  // Show loading state
+  if (loading && !analytics) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center"
+        >
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading analytics data...</p>
+          {!apiAvailable && (
+            <p className="text-orange-600 text-sm mt-2">
+              API unavailable - using demo data
+            </p>
+          )}
+        </motion.div>
+      </div>
+    );
+  }
+
+  // Show error state only if we don't have any data at all
+  if (error && !analytics) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="text-center"
+        >
+          <div className="text-red-500 text-6xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Failed to Load Analytics</h2>
+          <p className="text-gray-600 mb-2">{error}</p>
+          <p className="text-orange-600 text-sm mb-6">
+            This may be due to CORS policy or network connectivity issues.
+          </p>
+          <motion.button
+            onClick={handleRefresh}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors"
+          >
+            Retry
+          </motion.button>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
+        {/* API Status Banner */}
+        {!apiAvailable && analytics && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-4 p-3 bg-orange-50 border border-orange-200 rounded-xl"
+          >
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-orange-400 rounded-full animate-pulse"></div>
+              <span className="text-orange-700 text-sm font-medium">
+                API temporarily unavailable - displaying demo data
+              </span>
+              <motion.button
+                onClick={handleRefresh}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="ml-auto px-3 py-1 bg-orange-100 hover:bg-orange-200 text-orange-700 text-xs rounded-lg transition-colors"
+              >
+                Retry Connection
+              </motion.button>
+            </div>
+          </motion.div>
+        )}
+
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -528,7 +607,7 @@ const DashBoard = () => {
               animate={{ scale: 1 }}
               transition={{ duration: 0.5 }}
             >
-              🛡️ AI Misuse Detection
+              🛡️ AI Query Analytics
             </motion.h1>
             <motion.p
               className="text-gray-600 text-lg"
@@ -536,13 +615,21 @@ const DashBoard = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              Real-time monitoring and mitigation across your organization
+              Real-time monitoring and analytics across your organization
             </motion.p>
             <div className="flex items-center gap-2 mt-3">
-              <div className={`w-2 h-2 rounded-full ${realTimeData ? 'bg-green-400' : 'bg-red-400'} animate-pulse`} />
+              <div className={`w-2 h-2 rounded-full ${
+                realTimeData && apiAvailable ? 'bg-green-400' : 'bg-red-400'
+              } animate-pulse`} />
               <span className="text-sm text-gray-500 font-medium">
-                {realTimeData ? 'Live Monitoring' : 'Monitoring Offline'}
+                {realTimeData && apiAvailable ? 'Live Monitoring' : 
+                 !apiAvailable ? 'Demo Mode' : 'Monitoring Offline'}
               </span>
+              {analytics && (
+                <span className="text-sm text-gray-400 ml-4">
+                  {analytics.overallStats.totalEmployees} employees monitored
+                </span>
+              )}
             </div>
           </div>
 
@@ -570,6 +657,7 @@ const DashBoard = () => {
               visibleCharts={visibleCharts}
               onToggleChart={toggleChart}
               onToggleAll={toggleAllCharts}
+              chartConfigs={chartConfigs}
             />
 
             <motion.button
@@ -604,6 +692,66 @@ const DashBoard = () => {
           ))}
         </div>
 
+        {/* Charts Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {chartConfigs.map((chart, index) => (
+            <motion.div
+              key={chart.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <ChartCard
+                chart={chart}
+                isVisible={visibleCharts[chart.id]}
+                onToggle={toggleChart}
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Recent Queries Section */}
+        {analytics && (analytics.recentSevereQueries.length > 0 || analytics.recentWarningQueries.length > 0) && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8"
+          >
+            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+              <FiAlertTriangle className="w-5 h-5 text-red-500" />
+              Recent High-Risk Queries
+            </h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {analytics.recentSevereQueries.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-red-600 mb-2">Severe Queries</h4>
+                  <div className="space-y-2">
+                    {analytics.recentSevereQueries.slice(0, 3).map((query, index) => (
+                      <div key={index} className="p-3 bg-red-50 rounded-lg border border-red-200">
+                        <p className="text-sm text-gray-600">Query content would be displayed here</p>
+                        <p className="text-xs text-gray-400 mt-1">Employee: {query.employee || 'N/A'}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {analytics.recentWarningQueries.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-yellow-600 mb-2">Warning Queries</h4>
+                  <div className="space-y-2">
+                    {analytics.recentWarningQueries.slice(0, 3).map((query, index) => (
+                      <div key={index} className="p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                        <p className="text-sm text-gray-600">Query content would be displayed here</p>
+                        <p className="text-xs text-gray-400 mt-1">Employee: {query.employee || 'N/A'}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+
         {/* Footer */}
         <motion.div
           initial={{ opacity: 0 }}
@@ -622,7 +770,7 @@ const DashBoard = () => {
               </span>
               <span className="flex items-center gap-2 text-blue-600">
                 <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                {aiMisuseData.employeeMisuse.length} Employees Monitored
+                {analytics ? analytics.overallStats.totalEmployees : 0} Employees Monitored
               </span>
               <span className="flex items-center gap-2 text-purple-600">
                 <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
@@ -636,4 +784,4 @@ const DashBoard = () => {
   );
 };
 
-export default DashBoard;
+export default Enterprise;
