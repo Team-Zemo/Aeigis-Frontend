@@ -1,35 +1,32 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import EnterpriseL from './pages/LoginPage/Enterprise/EnterpriseL';
+import ParentL from './pages/LoginPage/Parent/ParentL';
+import EnterpriseR from './pages/RegisterPage/Enterprise/EnterpriseR';
+import ParentR from './pages/RegisterPage/Parent/ParentR';
+import LandingPage from './pages/LandingPage/LandingPage';
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/landing_page/*" element={<LandingPage />} />
+        <Route path="/login/parent/*" element={<ParentL />} />
+        <Route path="/login/enterprise/*" element={<EnterpriseL />} />
+        <Route path="/register/parent/*" element={<ParentR />} />
+        <Route path="/register/enterprise/*" element={<EnterpriseR />} />
+
+        <Route
+          path="/"
+          element={<Navigate to="/landing_page" replace />}
+        />
+        <Route
+          path="*"
+          element={<Navigate to="/landing_page" replace />}
+        />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
