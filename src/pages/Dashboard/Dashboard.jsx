@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../../components/ui/Sidebar";
 import Enterprise from "./Enterprise";
 import Analytic from "./Analytic";
+import EmployeeDetails from "./EmployeeDetails";
 import AddEmployee from "./AddEmployee";
+import Policies from "./Policies";
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import { useEffect } from "react";
@@ -13,7 +15,11 @@ import {
   IconBrandTabler,
   IconSettings,
   IconUserBolt,
-  IconRectangle,
+  IconChartBar,
+  IconUserPlus,
+  IconUsers,
+  IconShield,
+  IconBuilding,
 } from "@tabler/icons-react";
 
 function Dashboard() {
@@ -24,14 +30,35 @@ function Dashboard() {
       label: "Enterprise",
       href: "#",
       icon: (
-        <IconBrandTabler className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconBuilding className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
       label: "Analytic",
       href: "#",
       icon: (
-        <IconRectangle className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+        <IconChartBar className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Add Employee",
+      href: "#",
+      icon: (
+        <IconUserPlus className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Employee Details",
+      href: "#",
+      icon: (
+        <IconUsers className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
+      ),
+    },
+    {
+      label: "Add Policies",
+      href: "#",
+      icon: (
+        <IconShield className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     {
@@ -39,13 +66,6 @@ function Dashboard() {
       href: "#",
       icon: (
         <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-      ),
-    },
-    {
-      label: "Add Employee",
-      href: "#",
-      icon: (
-        <IconRectangle className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     },
     // ...other links...
@@ -87,6 +107,8 @@ function Dashboard() {
         {selectedPage === "Enterprise" && <Enterprise />}
         {selectedPage === "Analytic" && <Analytic />}
         {selectedPage === "Add Employee" && <AddEmployee />}
+        {selectedPage === "Employee Details" && <EmployeeDetails />}
+        {selectedPage === "Add Policies" && <Policies />}
       </div>
     </div>
   );

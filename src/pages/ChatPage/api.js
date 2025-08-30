@@ -1,9 +1,7 @@
 import { useAuthStore } from '../../store/authStore';
 
 // Use relative URL for development with Vite proxy, fallback to direct URL for production
-const BASE_URL = process.env.NODE_ENV === 'production'
-    ? 'http://192.168.137.59:8080'
-    : '';
+const BASE_URL = 'http://localhost:8080'
 
 class ChatAPI {
     // Helper method to get auth headers
@@ -122,14 +120,13 @@ class ChatAPI {
     // 6. Send Chat Message with AI Response
     async sendChatMessage(prompt, sessionId) {
         try {
-            const formData = new FormData();
-            formData.append('prompt', prompt);
-            formData.append('sessionId', sessionId);
-
             const response = await fetch(`${BASE_URL}/api/ai/chat`, {
                 method: 'POST',
-                headers: this.getAuthHeadersFormData(),
-                body: formData
+                headers: this.getAuthHeaders(),
+                body: JSON.stringify({
+                    prompt: prompt,
+                    sessionId: sessionId
+                })
             });
 
             const data = await response.json();

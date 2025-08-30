@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { authApi, analyticsApi } from './api.js';
+import { authApi, analyticsApi, policiesApi } from './api.js';
 
 export const useAuthStore = create((set, get) => ({
   // State
@@ -10,6 +10,9 @@ export const useAuthStore = create((set, get) => ({
   user: null,
   token: null,
   analytics: null,
+  employees: [],
+  policies: [],
+  selectedEmployeeAnalytics: null,
   
   // Form data
   formData: {
@@ -221,21 +224,96 @@ export const useAuthStore = create((set, get) => ({
       return false;
     }
   },
+
+  // Employee methods
+  fetchEmployees: async () => {
+    set({ loading: true, error: null });
+    try {
+      const response = await authApi.getEmployees();
+      
+      if (response.ok) {
+        const data = await response.json();
+        // The API returns relationship objects, each containing admin and employee
+        // We want to extract all the employee data from these relationships
+        const employeeData = data.map(relationship => relationship);
+        set({ loading: false, employees: employeeData });
+        return true;
+      } else {
+        const errorMsg = await response.text();
+        set({ loading: false, error: errorMsg || 'Failed to fetch employees' });
+        return false;
+      }
+    } catch (error) {
+      set({ loading: false, error: 'Failed to fetch employees' });
+      return false;
+    }
+  },
+
+  fetchEmployeeAnalytics: async (email) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await authApi.getEmployeeAnalytics(email);
+      
+      if (response.ok) {
+        const data = await response.json();
+        set({ loading: false, selectedEmployeeAnalytics: data });
+        return true;
+      } else {
+        const errorMsg = await response.text();
+        set({ loading: false, error: errorMsg || 'Failed to fetch employee analytics' });
+        return false;
+      }
+    } catch (error) {
+      set({ loading: false, error: 'Failed to fetch employee analytics' });
+      return false;
+    }
+  },
+
+  clearSelectedEmployeeAnalytics: () => set({ selectedEmployeeAnalytics: null }),
+
+  // Policies methods
+  createPolicies: async (policies) => {
+    set({ loading: true, error: null, successMessage: null });
+    try {
+      const response = await policiesApi.createPolicies(policies);
+      
+      if (response.ok) {
+        const message = await response.text();
+        set({ loading: false, successMessage: message || 'Policies created successfully' });
+        // Refresh policies list
+        get().fetchPolicies();
+        return true;
+      } else {
+        const errorMsg = await response.text();
+        set({ loading: false, error: errorMsg || 'Failed to create policies' });
+        return false;
+      }
+    } catch (error) {
+      set({ loading: false, error: 'Failed to create policies' });
+      return false;
+    }
+  },
+
+  fetchPolicies: async () => {
+    set({ loading: true, error: null });
+    try {
+      const response = await policiesApi.getPolicies();
+      
+      if (response.ok) {
+        const data = await response.json();
+        // Extract policies array from the response object
+        const policiesArray = data.policies || [];
+        set({ loading: false, policies: policiesArray });
+        return true;
+      } else {
+        const errorMsg = await response.text();
+        set({ loading: false, error: errorMsg || 'Failed to fetch policies' });
+        return false;
+      }
+    } catch (error) {
+      set({ loading: false, error: 'Failed to fetch policies' });
+      return false;
+    }
+  },
 }));
-//           loading: false,
-//           user: { email: data.email, role: data.role },
-//           token: data.token,
-//           successMessage: data.message
-//         });
-//         localStorage.setItem('authToken', data.token);
-//         return true;
-//       } else {
-//         set({ loading: false, error: data.message || 'Registration failed' });
-//         return false;
-//       }
-//     } catch (error) {
-//       set({ loading: false, error: 'Network error occurred' });
-//       return false;
-//     }
-//   },
-// }));
+

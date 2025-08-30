@@ -10,7 +10,7 @@ import EmployeeLogin from '../LoginPage/Employee/EmployeeLogin.jsx';
 
 function LandingPage() {
   return (
-    <Box sx={{height: '100vh', width: '100vw', position: 'relative'}}>
+    <div sx={{height: '100vh', width: '100vw', position: 'relative'}}>
       {/* Make Particles fixed and full viewport */}
       <div style={{
         position: 'fixed',
@@ -33,7 +33,7 @@ function LandingPage() {
       </div>
       {/* Content goes above particles */}
       <div style={{ width: '100%', minHeight: 'fit-content', position: 'relative', zIndex: 1}}>
-        <Box sx={{width: '100%', pointerEvents: 'auto', overflow: 'hidden'}}>
+        <Box sx={{width: '100%', pointerEvents: 'auto'}}>
           <Navbar />
         </Box>
 
@@ -45,7 +45,7 @@ function LandingPage() {
         </Routes>
 
       </div>
-    </Box>
+    </div>
   );
 }
 

@@ -1,4 +1,4 @@
-const BASE_URL = '';
+const BASE_URL = 'http://localhost:8080';
 // const BASE_URL = 'http://192.168.137.59:8080';
 
 // Base API utility function
@@ -11,6 +11,33 @@ const apiRequest = async (endpoint, options = {}) => {
       ...(token ? { 'Authorization': `Bearer ${token}` } : {})
     },
     // Add CORS mode
+    mode: 'cors'
+  };
+
+  const mergedOptions = {
+    ...defaultOptions,
+    ...options,
+    headers: {
+      ...defaultOptions.headers,
+      ...options.headers
+    }
+  };
+
+  try {
+    const response = await fetch(`${BASE_URL}${endpoint}`, mergedOptions);
+    return response;
+  } catch (error) {
+    console.error('API Request Error:', error);
+    throw error;
+  }
+};
+
+// Unauthenticated API utility function (no Authorization header)
+const unauthenticatedApiRequest = async (endpoint, options = {}) => {
+  const defaultOptions = {
+    headers: {
+      'Content-Type': 'application/json'
+    },
     mode: 'cors'
   };
 
@@ -65,7 +92,7 @@ export const analyticsApi = {
 // Mock data function for when API is unavailable
 const getMockAnalyticsData = () => ({
   "overallStats": {
-    "totalEmployees": 1,
+    "totalEmployees": 0,
     "totalQueries": 0,
     "safeQueries": 0,
     "warningQueries": 0,
@@ -118,7 +145,7 @@ const getMockAnalyticsData = () => ({
 // Auth API (moved from authStore)
 export const authApi = {
   sendOTP: async (email) => {
-    const response = await apiRequest('/api/auth/send-otp', {
+    const response = await unauthenticatedApiRequest('/api/auth/send-otp', {
       method: 'POST',
       body: JSON.stringify({ email })
     });
@@ -126,7 +153,7 @@ export const authApi = {
   },
 
   registerAdmin: async (formData) => {
-    const response = await apiRequest('/api/auth/register-admin', {
+    const response = await unauthenticatedApiRequest('/api/auth/register-admin', {
       method: 'POST',
       body: JSON.stringify(formData)
     });
@@ -134,7 +161,7 @@ export const authApi = {
   },
 
   login: async (email, password) => {
-    const response = await apiRequest('/api/auth/login', {
+    const response = await unauthenticatedApiRequest('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password })
     });
@@ -150,9 +177,41 @@ export const authApi = {
   },
 
   completeEmployeeRegistration: async (invitationToken, password, name) => {
-    const response = await apiRequest('/api/auth/complete-registration', {
+    const response = await unauthenticatedApiRequest('/api/auth/complete-registration', {
       method: 'POST',
       body: JSON.stringify({ invitationToken, password, name })
+    });
+    return response;
+  },
+
+  getEmployees: async () => {
+    const response = await apiRequest('/api/admin/employees', {
+      method: 'GET'
+    });
+    return response;
+  },
+
+  getEmployeeAnalytics: async (email) => {
+    const response = await apiRequest(`/api/admin/analytics/employee/${encodeURIComponent(email)}`, {
+      method: 'GET'
+    });
+    return response;
+  }
+};
+
+// Policies API
+export const policiesApi = {
+  createPolicies: async (policies) => {
+    const response = await apiRequest('/api/admin/policies', {
+      method: 'POST',
+      body: JSON.stringify(policies)
+    });
+    return response;
+  },
+
+  getPolicies: async () => {
+    const response = await apiRequest('/api/admin/policies', {
+      method: 'GET'
     });
     return response;
   }

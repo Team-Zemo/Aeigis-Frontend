@@ -97,7 +97,15 @@ function ChatScreen() {
     try {
       setLoading(true);
       const messagesData = await chatAPI.getSessionMessages(sessionId);
-      setMessages(messagesData || []);
+      
+      // Map messages based on index and ensure proper timestamp field
+      const mappedMessages = (messagesData || []).map((message, index) => ({
+        ...message,
+        sender: (index % 2 === 0) ? 'user' : 'ai', // 0, 2, 4... = user; 1, 3, 5... = ai
+        timestamp: message.timestamp || message.createdAt || message.created_at || message.sentAt || new Date().toISOString()
+      }));
+      
+      setMessages(mappedMessages);
     } catch (err) {
       setError('Failed to load messages');
       console.error('Error loading messages:', err);
@@ -165,20 +173,20 @@ function ChatScreen() {
 
         if (response.userMessage) {
           newMessages.push({
-            id: Date.now(),
+            id: response.userMessage.id || Date.now(),
             content: response.userMessage.content || messageText,
             sender: 'user',
-            timestamp: new Date().toISOString(),
+            timestamp: response.userMessage.timestamp || response.userMessage.createdAt || new Date().toISOString(),
             riskLevel: response.riskLevel
           });
         }
 
         if (response.aiMessage) {
           newMessages.push({
-            id: Date.now() + 1,
+            id: response.aiMessage.id || Date.now() + 1,
             content: response.aiMessage.content || response.aiMessage.response,
             sender: 'ai',
-            timestamp: new Date().toISOString(),
+            timestamp: response.aiMessage.timestamp || response.aiMessage.createdAt || new Date().toISOString(),
             riskLevel: response.riskLevel
           });
         }
@@ -234,7 +242,27 @@ function ChatScreen() {
   };
 
   const formatTime = (timestamp) => {
-    return new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    try {
+      const date = new Date(timestamp);
+      if (isNaN(date.getTime())) {
+        return 'Invalid time';
+      }
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } catch (error) {
+      return 'Invalid time';
+    }
+  };
+
+  const formatDate = (timestamp) => {
+    try {
+      const date = new Date(timestamp);
+      if (isNaN(date.getTime())) {
+        return 'Invalid date';
+      }
+      return date.toLocaleDateString();
+    } catch (error) {
+      return 'Invalid date';
+    }
   };
 
   return (
@@ -348,7 +376,7 @@ function ChatScreen() {
                         {session.title || `Session ${session.id}`}
                       </h3>
                       <p className="text-xs text-gray-500 mt-1">
-                        {new Date(session.createdAt || Date.now()).toLocaleDateString()}
+                        {formatDate(session.createdAt)}
                       </p>
                     </div>
                     <button
