@@ -96,7 +96,7 @@ function Navbar() {
   return (
     <div className="flex justify-center pt-8 pb-4 bg-transparent w-full">
       <div
-        className="flex justify-center max-w-full px-1 h-11 xl:h-13  rounded-[50px] relative transition-colors duration-300 ease-in-out"
+        className="flex justify-center max-w-full px-1 h-11 sm:h-11 md:h-12 lg:h-13 xl:h-13  rounded-[50px] relative transition-colors duration-300 ease-in-out"
         style={{
           backgroundColor: activeButton
             ? pages.find((page) => page.name === activeButton)?.bbcolor || "#f0f0f0"
@@ -105,7 +105,7 @@ function Navbar() {
       >
         {/* Active slider */}
         <div
-          className="absolute rounded-[50px] transition-all duration-200 ease-in-out z-20 h-8 sm:h-7 md:h-9 lg:h-9 xl:h-10"
+          className="absolute rounded-[50px] transition-all duration-200 ease-in-out z-20 h-8 sm:h-8 md:h-9 lg:h-10 xl:h-10"
           style={{
             left: `${sliderStyle.left}px`,
             width: `${sliderStyle.width}px`,
@@ -117,7 +117,7 @@ function Navbar() {
         
         {/* Hover slider */}
         <div
-          className="absolute rounded-[50px] transition-all duration-300 ease-in-out z-10 h-6 sm:h-6 md:h-9 lg:h-9 xl:h-10"
+          className="absolute rounded-[50px] transition-all duration-300 ease-in-out z-10 h-8 sm:h-8 md:h-9 lg:h-10 xl:h-10"
           style={{
             left: `${hoverSliderStyle.left}px`,
             width: `${hoverSliderStyle.width}px`,
@@ -147,7 +147,7 @@ function Navbar() {
                 onClick={() => handleButtonClick(page.name)}
                 onMouseEnter={() => handleButtonHover(page.name)}
                 onMouseLeave={handleButtonLeave}
-                className="inline-block bg-transparent mt-1.5 sm:mt-0 md: lg:mt-0 xl:mt-0 px-4 py-1 sm:py-1 md:py-2 lg:py-2 xl:py-3 mx-1 sm:mx-1 md:mx-1 lg:mx-1 xl:mx-1 rounded relative z-30 transition-colors duration-300 ease-in-out text-10px sm:text-lg md:text-lg lg:text-lg xl:text-lg-700 font-medium capitalize min-w-0 hover:bg-transparent"
+                className="inline-block bg-transparent mt-1.5 sm:mt-0 md:mt-0 lg:mt-0 xl:mt-0 px-4 py-1 sm:py-2 md:py-2.5 lg:py-3 xl:py-3 mx-1 sm:mx-1 md:mx-1 lg:mx-1 xl:mx-1 rounded relative z-30 transition-colors duration-300 ease-in-out text-10px sm:text-lg md:text-lg lg:text-lg xl:text-lg-700 font-medium capitalize min-w-0 hover:bg-transparent"
                 style={{
                   color: isActive ? page.color || "white" : "black",
                   fontFamily: "system-ui",
