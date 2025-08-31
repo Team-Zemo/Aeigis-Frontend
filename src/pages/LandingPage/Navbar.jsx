@@ -45,14 +45,28 @@ function Navbar() {
 
   useEffect(() => {
     function updateSliderPosition() {
-      const homeButton = buttonRefs.current["Home"];
-      const homePage = pages.find((p) => p.name === "Home");
-      setSliderStyle(getSliderPosition(homeButton, homePage, isXsScreen()));
+      const button = buttonRefs.current[activeButton];
+      const page = pages.find((p) => p.name === activeButton);
+      setSliderStyle(getSliderPosition(button, page, isXsScreen()));
     }
     updateSliderPosition();
     window.addEventListener("resize", updateSliderPosition);
     return () => window.removeEventListener("resize", updateSliderPosition);
-  }, []);
+  }, [activeButton]);
+
+  useEffect(() => {
+    // Sync activeButton with route changes
+    const page = pages.find((p) => {
+      let to = "/home";
+      if (p.name === "Home") to = "/home";
+      else if (p.name === "About") to = "/home/about";
+      else if (p.name === "Enterprise") to = "/home/enterprise";
+      else if (p.name === "Pricing") to = "/home/pricing";
+      else if (p.name === "Employee") to = "/home/employee";
+      return location.pathname === to;
+    });
+    if (page) setActiveButton(page.name);
+  }, [location.pathname]);
 
   const handleButtonClick = (pageName) => {
     setActiveButton(pageName);

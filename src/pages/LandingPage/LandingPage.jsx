@@ -1,4 +1,3 @@
-import Box from '@mui/material/Box';
 import Navbar from './Navbar';
 import Particles from './Particles';
 import EnterpriseL from '../LoginPage/Enterprise/EnterpriseL';
@@ -31,11 +30,12 @@ function LandingPage() {
           disableRotation={false}
         />
       </div>
-      {/* Content goes above particles */}
+
+
       <div style={{ width: '100%', minHeight: 'fit-content', position: 'relative', zIndex: 1}}>
-        <Box sx={{width: '100%', pointerEvents: 'auto'}}>
+        <div style={{width: '100%', pointerEvents: 'auto'}}>
           <Navbar />
-        </Box>
+        </div>
 
         <Routes>
           <Route path="/" element={<Home />} />
