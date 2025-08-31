@@ -7,7 +7,6 @@ import LandingPage from './pages/LandingPage/LandingPage';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Dashboard from './pages/Dashboard/Dashboard';
 import ChatScreen from './pages/ChatPage/ChatScreen';
-// import EmployeeLogin from './pages/LoginPage/Employee/EmployeeLogin';
 
 const theme = createTheme({
   palette: {
@@ -29,7 +28,6 @@ function App() {
         <Routes>
           <Route path="/home/*" element={<LandingPage />} />
           <Route path="/enterprise/login" element={<EnterpriseL />} />
-          {/* <Route path="/employee/*" element={<EmployeeLogin />} /> */}
           <Route 
             path="/enterprise/dashboard" 
             element={

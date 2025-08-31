@@ -31,20 +31,23 @@ function Navbar() {
     return window.innerWidth < 640;
   }
 
+  function getSliderPosition(buttonElement, page, isXs) {
+    if (!buttonElement || !page) return { left: 0, width: 0, opacity: 0, top: 0 };
+    const { offsetLeft, offsetWidth, offsetTop } = buttonElement;
+    return {
+      left: offsetLeft + 4,
+      width: offsetWidth,
+      opacity: 1,
+      backgroundColor: page.bcolor,
+      top: isXs ? offsetTop + 1 : offsetTop + 6
+    };
+  }
+
   useEffect(() => {
     function updateSliderPosition() {
       const homeButton = buttonRefs.current["Home"];
       const homePage = pages.find((p) => p.name === "Home");
-      if (homeButton && homePage) {
-        const { offsetLeft, offsetWidth, offsetTop } = homeButton;
-        setSliderStyle({
-          left: offsetLeft + 7,
-          width: offsetWidth,
-          opacity: 1,
-          backgroundColor: homePage.bcolor,
-          top: isXsScreen() ? offsetTop - 2 : offsetTop
-        });
-      }
+      setSliderStyle(getSliderPosition(homeButton, homePage, isXsScreen()));
     }
     updateSliderPosition();
     window.addEventListener("resize", updateSliderPosition);
@@ -55,17 +58,7 @@ function Navbar() {
     setActiveButton(pageName);
     const buttonElement = buttonRefs.current[pageName];
     const page = pages.find((p) => p.name === pageName);
-
-    if (buttonElement && page.bcolor) {
-      const { offsetLeft, offsetWidth, offsetTop } = buttonElement;
-      setSliderStyle({
-        left: offsetLeft+4 ,
-        width: offsetWidth,
-        opacity: 1,
-        backgroundColor: page.bcolor,
-        top: isXsScreen() ? offsetTop +1 : offsetTop + 6
-      });
-    }
+    setSliderStyle(getSliderPosition(buttonElement, page, isXsScreen()));
   };
 
   const handleButtonHover = (pageName) => {
